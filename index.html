@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คอร์สการเขียนโปรแกรมกล่องสมองกล (Arduino Uno R3) - มัธยมศึกษาปีที่ 4</title>
+    <meta name="description" content="หลักสูตรการเขียนโปรแกรมกล่องสมองกล Arduino Uno R3 สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4 เน้นการคิดเชิงคำนวณและการเรียนรู้แบบโครงงานเป็นฐาน (Project-Based Learning)">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Mobile Navigation Toggle Button -->
+        <button id="mobile-menu-toggle" style="position: fixed; top: 15px; left: 15px; z-index: 1000; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; width: 40px; height: 40px; display: none; align-items: center; justify-content: center; cursor: pointer; color: var(--text-primary);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+
+        <!-- Sidebar Section -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-logo">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+                    </svg>
+                </div>
+                <h1 class="sidebar-title">Embedded 101</h1>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="sidebar-search">
+                <input type="text" id="search-input" placeholder="ค้นหาบทเรียน/หัวข้อ...">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 5 9.5 7.01 14 9.5 14z"/>
+                </svg>
+            </div>
+
+            <!-- Scrollable Weeks List -->
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <!-- Populated dynamically via app.js -->
+            </nav>
+        </aside>
+
+        <!-- Main Content Viewport -->
+        <main class="main-content">
+            
+            <!-- Header section -->
+            <header class="header">
+                <div>
+                    <h2 id="main-view-title" style="font-size: 1.8rem; font-weight: 700; margin-bottom: 6px;">การออกแบบระบบและเขียนโปรแกรม Arduino</h2>
+                    <div class="header-meta">
+                        <span class="header-badge" id="header-phase-badge">ระดับชั้นมัธยมศึกษาปีที่ 4</span>
+                        <span>รายวิชา การเขียนโปรแกรมกล่องสมองกล</span>
+                    </div>
+                </div>
+                
+                <button class="theme-toggle" id="theme-toggle" title="สลับธีม สว่าง/มืด">
+                    <!-- Moon Icon (for dark mode) -->
+                    <svg id="theme-icon" viewBox="0 0 24 24">
+                        <path d="M12 3c.132 0 .263 0 .393.007a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 2.999z"/>
+                    </svg>
+                </button>
+            </header>
+
+            <!-- Dynamic View Wrapper -->
+            <div id="content-viewport">
+                
+                <!-- View 1: Welcome & Course Overview (Shown by default) -->
+                <div id="welcome-view">
+                    
+                    <!-- Grid: Welcome Card and Grading Card -->
+                    <div class="welcome-grid">
+                        <div class="card">
+                            <h3 class="card-title">ยินดีต้อนรับสู่คู่มือการเรียนรู้ยุคใหม่</h3>
+                            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 15px;">
+                                ยินดีต้อนรับนักเรียนสู่วิชา <strong>การเขียนโปรแกรมกล่องสมองกล (Arduino Uno R3)</strong> สำหรับชั้นมัธยมศึกษาปีที่ 4 หลักสูตรนี้มุ่งเน้นการพัฒนาทักษะการแก้ปัญหาอย่างเป็นระบบผ่าน <strong>การคิดเชิงคำนวณ (Computational Thinking) การออกแบบระบบ และการสร้างสรรค์โครงงานนวัตกรรม (Project-Based Learning)</strong>
+                            </p>
+                            <p style="color: var(--text-secondary); line-height: 1.8;">
+                                คลิกเลือก <strong>ระดับการเรียนรู้ (ระดับที่ 1–7)</strong> จากเมนูด้านซ้ายมือเพื่อเริ่มการเรียนรู้เนื้อหา ตัวอย่างการต่อวงจร โค้ดโปรแกรม และทำแบบทดสอบทบทวนความรู้
+                            </p>
+                        </div>
+
+                        <div class="card grading-card">
+                            <h3 class="card-title">สัดส่วนการวัดผล</h3>
+                            <div>
+                                <div class="grading-item">
+                                    <span>แล็บและรายงานปฏิบัติการ (Lab)</span>
+                                    <strong>30%</strong>
+                                </div>
+                                <div class="grading-bar-container"><div class="grading-bar" style="width: 30%"></div></div>
+                                
+                                <div class="grading-item" style="margin-top: 10px;">
+                                    <span>โครงงานปลายภาคเรียน (PBL)</span>
+                                    <strong>30%</strong>
+                                </div>
+                                <div class="grading-bar-container"><div class="grading-bar" style="width: 30%; background: linear-gradient(135deg, #7f00ff 0%, #a855f7 100%);"></div></div>
+                                
+                                <div class="grading-item" style="margin-top: 10px;">
+                                    <span>การทดสอบย่อยรายสัปดาห์ (Quizzes)</span>
+                                    <strong>20%</strong>
+                                </div>
+                                <div class="grading-bar-container"><div class="grading-bar" style="width: 20%"></div></div>
+
+                                <div class="grading-item" style="margin-top: 10px;">
+                                    <span>สอบกลางภาคเรียน (Midterm)</span>
+                                    <strong>20%</strong>
+                                </div>
+                                <div class="grading-bar-container"><div class="grading-bar" style="width: 20%; background: linear-gradient(135deg, #7f00ff 0%, #a855f7 100%);"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CLO List Card -->
+                    <div class="card">
+                        <h3 class="card-title">ผลลัพธ์การเรียนรู้ที่คาดหวัง (Course Learning Outcomes: CLOs)</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">หลังจบบทเรียนนี้ นักเรียนจะมีความสามารถดังนี้:</p>
+                        <ul class="clo-list">
+                            <li class="clo-item">
+                                <strong>1. การคิดเชิงคำนวณ:</strong> วิเคราะห์และแยกแยะปัญหาเพื่อออกแบบขั้นตอนวิธีแก้ปัญหาอย่างเป็นระบบ
+                            </li>
+                            <li class="clo-item">
+                                <strong>2. การออกแบบระบบ:</strong> วางแผนและเขียนผังงาน (Flowchart) ลำดับการทำงานของโปรแกรมได้อย่างถูกต้อง
+                            </li>
+                            <li class="clo-item">
+                                <strong>3. การเขียนโปรแกรม:</strong> เขียนโค้ดควบคุมบอร์ด Arduino สร้างฟังก์ชันและใช้งานโครงสร้างควบคุมได้
+                            </li>
+                            <li class="clo-item">
+                                <strong>4. การควบคุมอุปกรณ์:</strong> ประยุกต์ใช้เซนเซอร์รับข้อมูลและสั่งการอุปกรณ์แสดงผลได้อย่างสัมพันธ์กัน
+                            </li>
+                            <li class="clo-item">
+                                <strong>5. การพัฒนาโครงงาน:</strong> นำความรู้ทั้งหมดมาบูรณาการเพื่อสร้างสรรค์โครงงานนวัตกรรมที่แก้ปัญหาได้จริง
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- View 2: Active Unit View (Hidden by default, dynamically filled) -->
+                <div id="unit-view" style="display: none;">
+                    
+                    <!-- Badges Row -->
+                    <div class="unit-meta-row">
+                        <span class="unit-badge" id="active-week-badge">Week 0</span>
+                        <span class="phase-badge" id="active-phase-badge">Phase: Name</span>
+                    </div>
+
+                    <!-- Brief description -->
+                    <div class="card" style="padding: 20px 30px;">
+                        <p id="active-unit-description" style="color: var(--text-secondary); line-height: 1.7; font-size: 1.05rem;"></p>
+                    </div>
+
+                    <!-- Tab Buttons Navigation -->
+                    <div class="tab-container">
+                        <button class="tab-btn active" data-tab="lecture">เนื้อหาการเรียนรู้</button>
+                        <button class="tab-btn" data-tab="example">ตัวอย่างและการต่อวงจร</button>
+                        <button class="tab-btn" data-tab="quiz">แบบทดสอบทบทวนความรู้</button>
+                    </div>
+
+                    <!-- Tab Panes Content Slots -->
+                    <div id="tab-content-wrapper">
+                        
+                        <!-- Tab 1: Lecture Content -->
+                        <div class="tab-pane active" id="pane-lecture">
+                            <div class="card lecture-body" id="lecture-content-slot">
+                                <!-- Injected by app.js -->
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Example Content -->
+                        <div class="tab-pane" id="pane-example">
+                            <div class="card">
+                                <h3 class="card-title" id="example-title-slot">ตัวอย่าง: การต่อปุ่มและไฟ</h3>
+                                
+                                <h4 style="font-size: 1.1rem; font-weight: 600; margin: 20px 0 10px 0;">ลอจิกวงจรและการต่อขา (Wiring Schema)</h4>
+                                <div class="example-wiring" id="example-wiring-slot">
+                                    <!-- Injected by app.js -->
+                                </div>
+
+                                <h4 style="font-size: 1.1rem; font-weight: 600; margin: 20px 0 10px 0;">ซอร์สโค้ดอ้างอิง C/C++</h4>
+                                <div class="code-wrapper">
+                                    <div class="code-header">
+                                        <span>main.ino (Arduino Code)</span>
+                                        <button class="code-copy-btn" id="code-copy-btn">คัดลอกโค้ด</button>
+                                    </div>
+                                    <pre><code class="language-cpp" id="example-code-slot">
+// Injected by app.js
+                                    </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3: Interactive Bloom's Quizzes -->
+                        <div class="tab-pane" id="pane-quiz">
+                            <div class="quiz-grid" id="quiz-grid-slot">
+                                <!-- Injected by app.js -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Script imports -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
